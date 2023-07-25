@@ -1,0 +1,130 @@
+<mvc:View
+    controllerName="ummtrinkprotokoll.ui5trinkprotokoll.controller.Detail"
+    xmlns="sap.m"
+    xmlns:semantic="sap.f.semantic"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+
+    <semantic:SemanticPage
+        id="detailPage"
+        >
+        <!--
+            busy="{detailView>/busy}"
+        busyIndicatorDelay="{detailView>/delay}"
+            -->
+        <semantic:titleHeading>
+            <Title
+                text="{CategoryID}"
+                level="H2"/>
+        </semantic:titleHeading>
+        <semantic:headerContent>
+            <ObjectAttribute title="{i18n>priceTitle}"/>
+            <ObjectNumber
+                number="{
+                    path: 'CategoryID',
+                    formatter: '.formatter.numberUnit'
+                }"
+                unit="{CategoryName}" />
+        </semantic:headerContent>
+        <semantic:content>
+        <Panel>
+            <Table
+                id="lineItemsList"
+                width="auto"
+                items="{/Observation}"
+                updateFinished=".onListUpdateFinished"
+                noDataText="{i18n>detailLineItemTableNoDataText}"
+                busyIndicatorDelay="{detailView>/lineItemTableDelay}">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title
+                            id="lineItemsTitle"
+                            text="{detailView>/lineItemListTitle}"
+                            titleStyle="H3"
+                            level="H3"/>
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="CODE"/>
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                        hAlign="End">
+                        <Text text="VALUE"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <ObjectIdentifier
+                                title="{code/coding/0/code}"
+                                text="{ProductID}"/>
+                           
+                           <Text text="{valueString}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            <f:SimpleForm id="SimpleFormChange354"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			title="Address"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="Code" />
+				<Input id="code"/>
+				<Label text="Wert" />
+				<Input id= "wert"/>
+				
+				<Button press="onsave" text="speichern"/>
+    
+			</f:content>
+
+		</f:SimpleForm>
+        </Panel>
+        </semantic:content>
+        <!--Semantic ShareMenu Buttons-->
+        <semantic:sendEmailAction>
+            <semantic:SendEmailAction
+                id="shareEmail"
+                press=".onSendEmailPress"/>
+        </semantic:sendEmailAction>
+
+        <semantic:closeAction>
+            <semantic:CloseAction
+                    id="closeColumn"
+                    press=".onCloseDetailPress"/>
+        </semantic:closeAction>
+
+        <semantic:fullScreenAction>
+            <semantic:FullScreenAction
+                    id="enterFullScreen"
+                    visible="{= !${device>/system/phone} &amp;&amp; !${appView>/actionButtonsInfo/midColumn/fullScreen}}"
+                    press=".toggleFullScreen"/>
+        </semantic:fullScreenAction>
+        <semantic:exitFullScreenAction>
+            <semantic:ExitFullScreenAction
+                    id="exitFullScreen"
+                    visible="{= !${device>/system/phone} &amp;&amp; ${appView>/actionButtonsInfo/midColumn/fullScreen}}"
+                    press=".toggleFullScreen"/>
+        </semantic:exitFullScreenAction>
+
+    </semantic:SemanticPage>
+
+</mvc:View>
